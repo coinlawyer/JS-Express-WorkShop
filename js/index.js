@@ -29,9 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return cart;
     };
 
-    goodsWrapper.appendChild(createCart());
-    goodsWrapper.appendChild(createCart());
-    goodsWrapper.appendChild(createCart());
+    goodsWrapper.appendChild(createCart(1, 'Darts', 23, 'img/temp/Archer.jpg'));
+    goodsWrapper.appendChild(createCart(2, 'Flamingo', 42, 'img/temp/Flamingo.jpg'));
+    goodsWrapper.appendChild(createCart(3, 'Socks', 5, 'img/temp/Socks.jpg'));
 
     searchField.addEventListener('click', () => {
         console.log('search');
