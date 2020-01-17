@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const wishlist = document.querySelector('#wishlist');
     const logoHeader = document.querySelector('.logo');
     const goodsWrapper = document.querySelector('.goods-wrapper');
+    const cartModal = document.querySelector('.cart');
+    
 
     const createCart = (id, title, price, img) => {
         const cart = document.createElement('div');
@@ -33,15 +35,27 @@ document.addEventListener('DOMContentLoaded', () => {
     goodsWrapper.appendChild(createCart(2, 'Flamingo', 42, 'img/temp/Flamingo.jpg'));
     goodsWrapper.appendChild(createCart(3, 'Socks', 5, 'img/temp/Socks.jpg'));
 
+    const closeCart = (event) => {
+        let target = event.target;
+        console.log(target);
+        if (target === cartModal || target.className === 'cart-close') {
+            cartModal.style.display = 'none';
+        }
+    };
+    
+    const openCart = () => {
+        cartModal.style.display = 'flex';
+    };
+    
+    cartIcon.addEventListener('click', openCart);
+    cartModal.addEventListener('click', closeCart);
+
     searchField.addEventListener('click', () => {
         console.log('search');
     });
     searchButton.addEventListener('click', (e) => {
         e.preventDefault();
         console.log('searchButton');
-    });
-    cartIcon.addEventListener('click', () => {
-        console.log('cart');
     });
     wishlist.addEventListener('click', () => {
         console.log('wishlist');
