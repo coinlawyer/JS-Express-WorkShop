@@ -35,12 +35,14 @@ document.addEventListener('DOMContentLoaded', () => {
     goodsWrapper.appendChild(createCart(2, 'Flamingo', 42, 'img/temp/Flamingo.jpg'));
     goodsWrapper.appendChild(createCart(3, 'Socks', 5, 'img/temp/Socks.jpg'));
     goodsWrapper.insertAdjacentElement('afterbegin', createCart(3, 'Socks', 5, 'img/temp/Socks.jpg'));
-
+    
     const closeCart = (event) => {
         let target = event.target;
         if (target === cartModal || target.className === 'cart-close' || event.code === 'Escape') { // or target.classList.contains('cart-close'), event.keyCode === 27
-            cartModal.style.display = 'none';
+        cartModal.style.display = 'none';
+        console.log(event.keyCode);
         }
+        document.removeEventListener('keydown', closeCart);
     };
     
     const openCart = event => {
