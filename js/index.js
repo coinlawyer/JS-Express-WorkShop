@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoHeader = document.querySelector('.logo');
     const goodsWrapper = document.querySelector('.goods-wrapper');
     const cartModal = document.querySelector('.cart');
+    const category = document.querySelector('.category');
 
     
     const createCart = (id, title, price, img) => {
@@ -15,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cart.innerHTML = `
         <div class="card">
         <div class="card-img-wrapper">
-        <img class="card-img-top" src="${img}" alt="">
+        <img class="card-img-top" src="./${img}" alt="">
                     <button class="card-add-wishlist"
                     data-item-id="${id}"></button>
                 </div>
@@ -57,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const renderCart = items => {
         goodsWrapper.textContent = '';
-        console.log(items);
         items.forEach(({ id, title, price, imgMin }) => { // we could make destructuring while passing arguments to the function!!!
             // const { id, title, price, imgMin } = item; - was before passing destr arguments 
             goodsWrapper.appendChild(createCart(id, title, price, imgMin));
@@ -72,10 +72,26 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(filter)
         .then(handler);
     };
+
+    const chooseCategory = event => {
+        event.preventDefault();
+        const target = event.target;
+
+        if (target.classList.contains('category-item')) {
+            const categoryName = target.dataset.category;
+            getGoods(renderCart, items => {
+                const filteredItems = items.filter(item => {
+                    return item.category.includes(categoryName); // as category is an array we use Array.includes() method!
+                });
+                return filteredItems;
+            });
+        }
+    };
     
-
     getGoods(renderCart, randomSort); // we put function as the argument
-
+   
+    
+    category.addEventListener('click', chooseCategory);
 
     searchField.addEventListener('click', () => {
         console.log('search');
