@@ -41,7 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const target = event.target;
         if (target === cartModal ||
             target.className === 'cart-close' ||
-            event.code === 'Escape') { // or target.classList.contains('cart-close') or event.keyCode === 27
+            event.code === 'Escape') { 
+                // or target.classList.contains('cart-close') or event.keyCode === 27
             cartModal.style.display = 'none';
             document.removeEventListener('keydown', closeCart);
         }
@@ -58,15 +59,18 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const renderCart = items => {
         goodsWrapper.textContent = '';
-        items.forEach(({ id, title, price, imgMin }) => { // we could make destructuring while passing arguments to the function!!!
+        items.forEach(({ id, title, price, imgMin }) => { 
+            // we could make destructuring while passing arguments to the function!!!
             // const { id, title, price, imgMin } = item; - was before passing destr arguments 
             goodsWrapper.appendChild(createCart(id, title, price, imgMin));
         });
     };
 
-    const randomSort = (items) => items.sort( () => 0.5 - Math.random());
+    const randomSort = (items) => 
+        items.sort( () => 0.5 - Math.random());
 
-    const getGoods = (handler, filter) => { //handler is an universal name of parameter and its name could be anyth - like "abc"
+    const getGoods = (handler, filter) => { 
+        //handler is an universal name of parameter and its name could be anyth - like "abc"
         fetch('db/db.json')
         .then(response => response.json())
         .then(filter)
@@ -79,38 +83,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (target.classList.contains('category-item')) {
             const categoryName = target.dataset.category;
-            getGoods(renderCart, items => {
-                const filteredItems = items.filter(item => {
-                    return item.category.includes(categoryName); // as category is an array we use Array.includes() method!
-                });
-                return filteredItems;
-            });
+            getGoods(renderCart, 
+                items => items.filter(item => 
+                    item.category.includes(categoryName)) 
+                    // as category is an array we use Array.includes() method!
+            );
         }
     };
     
-    getGoods(renderCart, randomSort); // we put function as the argument
+    getGoods(renderCart, randomSort); // we`ve put function as the argument
    
     
     category.addEventListener('click', chooseCategory);
 
-    searchField.addEventListener('click', () => {
-        console.log('search');
-    });
-    searchButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        console.log('searchButton');
-    });
-    wishlist.addEventListener('click', () => {
-        console.log('wishlist');
-    });
-    logoHeader.addEventListener('click', (e) => {
-        e.preventDefault();
-        console.log('logo');
-    });
+
 
 
 });
 
-    // fetch('https://jsonplaceholder.typicode.com/photos/1'). // free test API on https://jsonplaceholder.typicode.com/
+// free test API on https://jsonplaceholder.typicode.com/
+
+    // fetch('https://jsonplaceholder.typicode.com/photos/1'). 
     //     then(response => response.json()).
     //     then(response => console.log(response));
