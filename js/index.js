@@ -38,8 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const closeCart = (event) => {
         let target = event.target;
-        console.log(target);
-        if (target === cartModal || target.className === 'cart-close' || event.code === 'Escape') { // or target.classList.contains('cart-close')
+        if (target === cartModal || target.className === 'cart-close' || event.code === 'Escape') { // or target.classList.contains('cart-close'), event.keyCode === 27
             cartModal.style.display = 'none';
         }
     };
@@ -47,10 +46,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const openCart = event => {
         event.preventDefault();
         cartModal.style.display = 'flex';
+        document.addEventListener('keydown', closeCart);
     };
 
-
-    document.addEventListener('keydown', closeCart);
     cartIcon.addEventListener('click', openCart);
     cartModal.addEventListener('click', closeCart);
 
