@@ -55,7 +55,13 @@ document.addEventListener('DOMContentLoaded', () => {
     cartIcon.addEventListener('click', openCart);
     cartModal.addEventListener('click', closeCart);
     
-    
+    const renderCart = items => {
+        goodsWrapper.textContent = '';
+        items.forEach(({ id, title, price, imgMin }) => { // we could make destructuring while passing arguments to the function!!!
+            // const { id, title, price, imgMin } = item; - was before passing destr arguments 
+            goodsWrapper.appendChild(createCart(id, title, price, imgMin));
+        });
+    };
 
     const getGoods = (handlerGoods) => {
         fetch('db/db.json')
@@ -63,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(handlerGoods);
     };
     
-    getGoods();
+    getGoods(renderCart);
 
 
 
