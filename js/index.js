@@ -34,19 +34,28 @@ document.addEventListener('DOMContentLoaded', () => {
     goodsWrapper.appendChild(createCart(1, 'Darts', 23, 'img/temp/Archer.jpg'));
     goodsWrapper.appendChild(createCart(2, 'Flamingo', 42, 'img/temp/Flamingo.jpg'));
     goodsWrapper.appendChild(createCart(3, 'Socks', 5, 'img/temp/Socks.jpg'));
+    goodsWrapper.insertAdjacentElement('afterbegin', createCart(3, 'Socks', 5, 'img/temp/Socks.jpg'));
 
     const closeCart = (event) => {
         let target = event.target;
         console.log(target);
-        if (target === cartModal || target.className === 'cart-close') {
+        if (target === cartModal || target.className === 'cart-close' || event.code === 'Escape') { // or target.classList.contains('cart-close')
             cartModal.style.display = 'none';
         }
     };
     
-    const openCart = () => {
+    const openCart = (e) => {
+        e.preventDefault();
         cartModal.style.display = 'flex';
     };
-    
+
+    // const logKey = (event) => {
+    //     if (event.code === 'Escape') {
+    //         clodeCart();
+    //     }
+    // };
+
+    document.addEventListener('keydown', closeCart);
     cartIcon.addEventListener('click', openCart);
     cartModal.addEventListener('click', closeCart);
 
