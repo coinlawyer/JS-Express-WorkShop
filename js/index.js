@@ -44,16 +44,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
     
-    const openCart = (e) => {
-        e.preventDefault();
+    const openCart = event => {
+        event.preventDefault();
         cartModal.style.display = 'flex';
     };
 
-    // const logKey = (event) => {
-    //     if (event.code === 'Escape') {
-    //         clodeCart();
-    //     }
-    // };
 
     document.addEventListener('keydown', closeCart);
     cartIcon.addEventListener('click', openCart);
