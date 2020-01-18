@@ -7,30 +7,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const logoHeader = document.querySelector('.logo');
     const goodsWrapper = document.querySelector('.goods-wrapper');
     const cartModal = document.querySelector('.cart');
-    
 
+    
     const createCart = (id, title, price, img) => {
         const cart = document.createElement('div');
         cart.className = 'card-wrapper col-12 col-md-6 col-lg-4 col-xl-3 pb-3';
         cart.innerHTML = `
-            <div class="card">
-                <div class="card-img-wrapper">
-                    <img class="card-img-top" src="${img}" alt="">
+        <div class="card">
+        <div class="card-img-wrapper">
+        <img class="card-img-top" src="${img}" alt="">
                     <button class="card-add-wishlist"
                     data-item-id="${id}"></button>
                 </div>
-            <div class="card-body justify-content-between">
+                <div class="card-body justify-content-between">
                 <a href="#" class="card-title">${title}</a>
                 <div class="card-price">${price}$</div>
-                    <div>
+                <div>
                         <button class="card-add-cart"
                         data-item-id="${id}">Add to cart</button>
                     </div>
-                </div>
-            </div>`;
-        return cart;
+                    </div>
+                    </div>`;
+                    return cart;
     };
-
+    
     goodsWrapper.appendChild(createCart(1, 'Darts', 23, 'img/temp/Archer.jpg'));
     goodsWrapper.appendChild(createCart(2, 'Flamingo', 42, 'img/temp/Flamingo.jpg'));
     goodsWrapper.appendChild(createCart(3, 'Socks', 5, 'img/temp/Socks.jpg'));
@@ -45,15 +45,27 @@ document.addEventListener('DOMContentLoaded', () => {
             document.removeEventListener('keydown', closeCart);
         }
     };
-
+    
     const openCart = event => {
         event.preventDefault();
         cartModal.style.display = 'flex';
         document.addEventListener('keydown', closeCart);
     };
-
+    
     cartIcon.addEventListener('click', openCart);
     cartModal.addEventListener('click', closeCart);
+    
+    
+
+    const getGoods = (handlerGoods) => {
+        fetch('db/db.json')
+        .then(response => response.json())
+        .then(handlerGoods);
+    };
+    
+    getGoods();
+
+
 
     searchField.addEventListener('click', () => {
         console.log('search');
@@ -72,3 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 });
+
+    // fetch('https://jsonplaceholder.typicode.com/photos/1'). // free test API on https://jsonplaceholder.typicode.com/
+    //     then(response => response.json()).
+    //     then(response => console.log(response));
