@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const goodsWrapper = document.querySelector('.goods-wrapper');
     const cartModal = document.querySelector('.cart');
     const category = document.querySelector('.category');
+    const spinner = document.querySelector('#spinner');
 
     
     const createCart = (id, title, price, img) => {
@@ -95,8 +96,6 @@ document.addEventListener('DOMContentLoaded', () => {
    
     
     category.addEventListener('click', chooseCategory);
-
-
 
 
 });
