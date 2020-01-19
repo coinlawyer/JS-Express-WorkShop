@@ -65,11 +65,16 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const renderCart = items => {
         goodsWrapper.textContent = '';
-        items.forEach(({ id, title, price, imgMin }) => { 
-            // we could make destructuring while passing arguments to the function!!!
-            // const { id, title, price, imgMin } = item; - was before passing destr arguments 
-            goodsWrapper.appendChild(createCart(id, title, price, imgMin));
-        });
+
+        if (items.length) {
+            items.forEach(({ id, title, price, imgMin }) => { 
+                // we could make destructuring while passing arguments to the function!!!
+                // const { id, title, price, imgMin } = item; - was before passing destr arguments 
+                goodsWrapper.appendChild(createCart(id, title, price, imgMin));
+            });
+            } else {
+            goodsWrapper.textContent = '🔍 once more. No matches found!🦧';
+        }
     };
     
     const randomSort = (items) => 
@@ -107,12 +112,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const inputValue = input.value.trim();
         if (inputValue !== '') {
             const searchString = new RegExp(inputValue, 'i');
-            console.log(searchString);
             getGoods(renderCart, 
                 items => items.filter(item => searchString.test(item.title)));
             // or:  items => items.filter(item => item.title.toLowerCase()
             //         .includes(inputValue.toLowerCase())));
         }
+        input.value = '';
     };
             
             cartIcon.addEventListener('click', openCart);
