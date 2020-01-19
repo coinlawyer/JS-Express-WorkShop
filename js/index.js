@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cartModal.addEventListener('click', closeCart);
     
     const renderCart = items => {
+        spinner.setAttribute('hidden', '');
         goodsWrapper.textContent = '';
         items.forEach(({ id, title, price, imgMin }) => { 
             // we could make destructuring while passing arguments to the function!!!
@@ -71,11 +72,16 @@ document.addEventListener('DOMContentLoaded', () => {
         items.sort( () => 0.5 - Math.random());
 
     const getGoods = (handler, filter) => { 
+        spinner.removeAttribute('hidden');
         //handler is an universal name of parameter and its name could be anyth - like "abc"
         fetch('db/db.json')
         .then(response => response.json())
         .then(filter)
-        .then(handler);
+        .then(handler)
+        .catch(error =>  {
+            spinner.setAttribute('hidden', '');
+            console.error(error.message);
+        });
     };
 
     const chooseCategory = event => {
