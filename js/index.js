@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const category = document.querySelector('.category');
     const spinner = document.querySelector('#spinner');
 
+    let wishList = [];
+
     const loading = () => {
         goodsWrapper.innerHTML = `
         <div id="spinner"><div class="spinner-loading">
@@ -124,11 +126,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         input.value = '';
     };
+
+    const toggleWishList = id => {
+        if (wishList.indexOf(id) + 1) {
+            wishList.splice(wishList.indexOf(id), 1);
+        } else {
+            wishList.push(id); 
+        }
+        console.log(wishList);
+    }; 
+
+    const handleWishGoods = event => {
+        const target = event.target;
+        if (target.classList.contains('card-add-wishlist')) {
+            toggleWishList(target.dataset.itemId);
+            
+        }
+    };
             
             cartIcon.addEventListener('click', openCart);
             cartModal.addEventListener('click', closeCart);
             category.addEventListener('click', chooseCategory);
             searchForm.addEventListener('submit', searchGoods);
+            goodsWrapper.addEventListener('click', handleWishGoods);
 
     getGoods(renderCart, randomSort); // we`ve put function as the argument
    
