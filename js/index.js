@@ -116,6 +116,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 items => items.filter(item => searchString.test(item.title)));
             // or:  items => items.filter(item => item.title.toLowerCase()
             //         .includes(inputValue.toLowerCase())));
+        } else {
+            searchForm.classList.add('error');
+            setTimeout( () => {
+                searchForm.classList.remove('error');
+            }, 2000);
         }
         input.value = '';
     };
