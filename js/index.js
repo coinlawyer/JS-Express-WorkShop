@@ -10,6 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const category = document.querySelector('.category');
     const spinner = document.querySelector('#spinner');
 
+    const loading = () => {
+        goodsWrapper.innerHTML = `
+        <div id="spinner"><div class="spinner-loading">
+        <div><div><div></div></div><div><div></div>
+        </div><div><div></div></div><div><div></div>
+        </div></div></div></div>`;
+    };
     
     const createCart = (id, title, price, img) => {
         const cart = document.createElement('div');
@@ -33,10 +40,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     return cart;
     };
     
-    goodsWrapper.appendChild(createCart(1, 'Darts', 23, 'img/temp/Archer.jpg'));
-    goodsWrapper.appendChild(createCart(2, 'Flamingo', 42, 'img/temp/Flamingo.jpg'));
-    goodsWrapper.appendChild(createCart(3, 'Socks', 5, 'img/temp/Socks.jpg'));
-    goodsWrapper.insertAdjacentElement('afterbegin', createCart(3, 'Socks', 5, 'img/temp/Socks.jpg'));
+    // goodsWrapper.appendChild(createCart(1, 'Darts', 23, 'img/temp/Archer.jpg'));
+    // goodsWrapper.appendChild(createCart(2, 'Flamingo', 42, 'img/temp/Flamingo.jpg'));
+    // goodsWrapper.appendChild(createCart(3, 'Socks', 5, 'img/temp/Socks.jpg'));
+    // goodsWrapper.insertAdjacentElement('afterbegin', createCart(3, 'Socks', 5, 'img/temp/Socks.jpg'));
     
     const closeCart = event => {
         const target = event.target;
@@ -55,11 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.addEventListener('keydown', closeCart);
     };
     
-    cartIcon.addEventListener('click', openCart);
-    cartModal.addEventListener('click', closeCart);
     
     const renderCart = items => {
-        spinner.setAttribute('hidden', '');
         goodsWrapper.textContent = '';
         items.forEach(({ id, title, price, imgMin }) => { 
             // we could make destructuring while passing arguments to the function!!!
@@ -67,27 +71,26 @@ document.addEventListener('DOMContentLoaded', () => {
             goodsWrapper.appendChild(createCart(id, title, price, imgMin));
         });
     };
-
+    
     const randomSort = (items) => 
-        items.sort( () => 0.5 - Math.random());
-
+    items.sort( () => 0.5 - Math.random());
+    
     const getGoods = (handler, filter) => { 
-        spinner.removeAttribute('hidden');
+        loading();
         //handler is an universal name of parameter and its name could be anyth - like "abc"
         fetch('db/db.json')
         .then(response => response.json())
-        .then(filter)
+        .then(filter) // in fetch if we dont pass second function here we got "undefined and it will be skipped"
         .then(handler)
         .catch(error =>  {
-            spinner.setAttribute('hidden', '');
             console.error(error.message);
         });
     };
-
+    
     const chooseCategory = event => {
         event.preventDefault();
         const target = event.target;
-
+        
         if (target.classList.contains('category-item')) {
             const categoryName = target.dataset.category;
             getGoods(renderCart, 
@@ -97,13 +100,28 @@ document.addEventListener('DOMContentLoaded', () => {
             );
         }
     };
-    
+
+    const searchGoods = event => {
+        event.preventDefault();
+        const input = event.target.elements.searchGoods;
+        const inputValue = input.value.trim();
+        if (inputValue !== '') {
+            const searchString = new RegExp(inputValue, 'i');
+            console.log(searchString);
+            getGoods(renderCart, 
+                items => items.filter(item => searchString.test(item.title)));
+            // or:  items => items.filter(item => item.title.toLowerCase()
+            //         .includes(inputValue.toLowerCase())));
+        }
+    };
+            
+            cartIcon.addEventListener('click', openCart);
+            cartModal.addEventListener('click', closeCart);
+            category.addEventListener('click', chooseCategory);
+            searchForm.addEventListener('submit', searchGoods);
+
     getGoods(renderCart, randomSort); // we`ve put function as the argument
    
-    
-    category.addEventListener('click', chooseCategory);
-
-
 });
 
 // free test API on https://jsonplaceholder.typicode.com/
