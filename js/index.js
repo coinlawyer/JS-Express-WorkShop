@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const category = document.querySelector('.category');
     const spinner = document.querySelector('#spinner');
 
-    let wishList = [];
+    const wishList = [];
 
     const loading = () => {
         goodsWrapper.innerHTML = `
@@ -127,11 +127,13 @@ document.addEventListener('DOMContentLoaded', () => {
         input.value = '';
     };
 
-    const toggleWishList = id => {
+    const toggleWishList = (id, elem) => {
         if (wishList.indexOf(id) + 1) {
             wishList.splice(wishList.indexOf(id), 1);
+            elem.classList.remove('active');
         } else {
             wishList.push(id); 
+            elem.classList.add('active');
         }
         console.log(wishList);
     }; 
@@ -139,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const handleWishGoods = event => {
         const target = event.target;
         if (target.classList.contains('card-add-wishlist')) {
-            toggleWishList(target.dataset.itemId);
+            toggleWishList(target.dataset.itemId, target);
             
         }
     };
